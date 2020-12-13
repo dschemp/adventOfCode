@@ -26,9 +26,11 @@ namespace AdventOfCode
 
             List<int> orderedChargers = outputJolts.OrderBy(t => t).ToList();
 
-            long amount = GetAmountOfValidCombinations(orderedChargers);
+            long amountIterative = GetAmountOfValidCombinations(orderedChargers);
 
-            Console.WriteLine($"Amount of valid combinations: {amount}");
+            long amountRecursive = GetValidCombinations(0, orderedChargers, new Dictionary<int, long>());
+
+            Console.WriteLine($"Amount of valid combinations: {amountRecursive}");
         }
 
         /*
@@ -61,6 +63,49 @@ namespace AdventOfCode
             }
 
             return mapping[0];
+        }
+
+        /*
+         * Alternative Solution
+         */
+        static long GetValidCombinations(int value, List<int> chargers, Dictionary<int, long> mapping)
+        {
+            if (!chargers.Contains(value))
+            {
+                return 0;
+            }
+
+            if (value == chargers.Max())
+            {
+                return 1;
+            }
+
+            if (mapping.ContainsKey(value))
+            {
+                return mapping[value];
+            }
+
+            long val1 = GetValidCombinations(value + 1, chargers, mapping);
+            if (!mapping.ContainsKey(value + 1))
+            {
+                mapping.Add(value + 1, val1);
+            }
+
+            long val2 = GetValidCombinations(value + 2, chargers, mapping);
+            if (!mapping.ContainsKey(value + 2))
+            {
+                mapping.Add(value + 2, val2);
+            }
+
+            long val3 = GetValidCombinations(value + 3, chargers, mapping);
+            if (!mapping.ContainsKey(value + 3))
+            {
+                mapping.Add(value + 3, val3);
+            }
+
+            return GetValidCombinations(value + 1, chargers, mapping) +
+                   GetValidCombinations(value + 2, chargers, mapping) +
+                   GetValidCombinations(value + 3, chargers, mapping);
         }
     }
 }
