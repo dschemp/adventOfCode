@@ -85,27 +85,13 @@ namespace AdventOfCode
                 return mapping[value];
             }
 
-            long val1 = GetValidCombinations(value + 1, chargers, mapping);
-            if (!mapping.ContainsKey(value + 1))
-            {
-                mapping.Add(value + 1, val1);
-            }
-
-            long val2 = GetValidCombinations(value + 2, chargers, mapping);
-            if (!mapping.ContainsKey(value + 2))
-            {
-                mapping.Add(value + 2, val2);
-            }
-
-            long val3 = GetValidCombinations(value + 3, chargers, mapping);
-            if (!mapping.ContainsKey(value + 3))
-            {
-                mapping.Add(value + 3, val3);
-            }
-
-            return GetValidCombinations(value + 1, chargers, mapping) +
+            long combinations = GetValidCombinations(value + 1, chargers, mapping) +
                    GetValidCombinations(value + 2, chargers, mapping) +
                    GetValidCombinations(value + 3, chargers, mapping);
+
+            mapping.Add(value, combinations);
+
+            return combinations;
         }
     }
 }
