@@ -76,20 +76,5 @@ namespace AdventOfCode
 
             return number;
         }
-
-        static IEnumerable<int> GetLastIndices(IEnumerable<int> enumerable, int number, int amount)
-        {
-            var ints = enumerable as int[] ?? enumerable.ToArray();
-            int count = 0;
-
-            for (int i = ints.Count() - 1; i >= 0 && count != amount; i--)
-            {
-                if (ints.ElementAt(i) == number)
-                {
-                    yield return i;
-                    count++;
-                }
-            }
-        }
     }
 }
